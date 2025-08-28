@@ -40,6 +40,7 @@ function App() {
     )
     const maxPage = Math.ceil(filteredUsers.length / 10) || 1
     if (page > maxPage) setPage(maxPage)
+    if (page < 1) setPage(1)
   }, [users, filter, filteredUsers.length, page])
 
 
@@ -69,9 +70,9 @@ function App() {
             <ul>
               {filteredUsers
                 .slice((page - 1) * 10, page * 10)
-                .map((user) => (
+                .map((user, i) => (
                 <li
-                  key={user.id}
+                  key={i}
                   onClick={() => setSelectedUser(user)}
                   style={{
                     cursor: 'pointer',
@@ -88,7 +89,7 @@ function App() {
                 </li>
               ))}
             </ul>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}> 
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
               <button
                 onClick={() => setPage(Math.max(1, page - 1))}
                 disabled={page === 1}
@@ -114,7 +115,7 @@ function App() {
                 style={{ width: 150, borderRadius: '50%' }} 
               />
               <div>
-                <p id='users-name'><h3>{selectedUser.fname} {selectedUser.lname}</h3></p>
+                <span id='users-name'><h3>{selectedUser.fname} {selectedUser.lname}</h3></span>
                 <p><strong>Position:</strong> {selectedUser.role}</p>
                 <p><strong>Email:</strong> {selectedUser.email}</p>
                 <p><strong>Phone:</strong> {selectedUser.phone}</p>
