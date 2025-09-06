@@ -15,11 +15,12 @@ function App() {
   const fetchUsers = async () => {
     setLoading(true)
     setError(null)
+
     try {
       const res = await fetch('http://localhost:3001/api/users')
       if (!res.ok) throw new Error('Failed to fetch')
       const data = await res.json()
-      setUsers(data)
+      setUsers(data.sort((a, b) => a.fname.localeCompare(b.fname)))
     } catch (err) {
       setError(err.message)
     } finally {
@@ -38,6 +39,7 @@ function App() {
         user.lname.toLowerCase().includes(filter.toLowerCase())
       )
     )
+
     const maxPage = Math.ceil(filteredUsers.length / 10) || 1
     if (page > maxPage) setPage(maxPage)
     if (page < 1) setPage(1)
